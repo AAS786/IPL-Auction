@@ -24,8 +24,16 @@ cities = [
     'Sharjah', 'Mohali', 'Bengaluru'
 ]
 
-# Load the prediction model
-pipe = pickle.load(open('pipe.pkl', 'rb'))
+# Load the prediction model with error handling
+try:
+    with open('pipe.pkl', 'rb') as f:
+        pipe = pickle.load(f)
+except FileNotFoundError:
+    st.error("Model file 'pipe.pkl' not found. Please ensure the file is in the correct directory.")
+    st.stop()
+except Exception as e:
+    st.error(f"An error occurred while loading the model: {e}")
+    st.stop()
 
 # Set the title of the Streamlit app
 st.title('🏏 IPL Win Predictor 🏆')
